@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kevin.wang.springpatternkevinwang.mapper.UserMapper">
+    <resultMap id="BaseMapper" type="com.kevin.wang.springpatternkevinwang.model.entity.User">
+        <id property="id" column="id" jdbcType="BIGINT"></id>
+        <result property="userAccount" column="userAccount" jdbcType="VARCHAR"></result>
+        <result property="userPassword" column="userPassword" jdbcType="VARCHAR"></result>
+        <result property="unionId" column="unionId" jdbcType="VARCHAR"></result>
+        <result property="mpOpenId" column="mpOpenId" jdbcType="VARCHAR"></result>
+        <result property="userName" column="userName" jdbcType="VARCHAR"></result>
+        <result property="userAvator" column="userAvator" jdbcType="VARCHAR"></result>
+        <result property="userProfile" column="userProfile" jdbcType="VARCHAR"></result>
+        <result property="userRole" column="userRole" jdbcType="VARCHAR"></result>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"></result>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"></result>
+        <result property="isDelete" column="isDelete" jdbcType="TINYINT"></result>
+    </resultMap>
+
+</mapper>

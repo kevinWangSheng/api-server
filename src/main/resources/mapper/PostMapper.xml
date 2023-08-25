@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kevin.wang.springpatternkevinwang.mapper.PostMapper">
+    <resultMap id="BaseResultMap" type="com.kevin.wang.springpatternkevinwang.model.entity.Post">
+        <id property="id" column="id" jdbcType="BIGINT"></id>
+        <result property="userId" column="userId" jdbcType="BIGINT"></result>
+        <result property="title" column="title" jdbcType="VARCHAR"></result>
+        <result property="content" column="content" jdbcType="VARCHAR"></result>
+        <result property="tags" column="tags" jdbcType="VARCHAR"></result>
+        <result property="favourNum" column="favourNum" jdbcType="INTEGER"></result>
+        <result property="thumbNum" column="thumbNum" jdbcType="INTEGER"></result>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"></result>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"></result>
+        <result property="isDelete" column="isDelete" jdbcType="TINYINT"></result>
+    </resultMap>
+    <select id="listPostWithDelete" resultType="com.kevin.wang.springpatternkevinwang.model.entity.Post">
+        select * from post where updateTime>=#{minDate}
+    </select>
+</mapper>

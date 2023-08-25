@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kevin.wang.springpatternkevinwang.mapper.PostThumbMapper">
+
+    <resultMap id="BaseMapper" type="com.kevin.wang.springpatternkevinwang.model.entity.PostThumb">
+        <result property="id" column="id" jdbcType="BIGINT"></result>
+        <result property="postId" column="postId" jdbcType="BIGINT"></result>
+        <result property="userId" column="userId" jdbcType="BIGINT"></result>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"></result>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"></result>
+    </resultMap>
+</mapper>
