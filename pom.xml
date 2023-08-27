@@ -11,8 +11,8 @@
     <groupId>com.kevin.wang</groupId>
     <artifactId>spring-pattern-kevin-wang</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-pattern-kevin-wang</name>
-    <description>spring-pattern-kevin-wang</description>
+    <name>openAPI-server</name>
+    <description>a openAPI platform</description>
     <properties>
         <java.version>17</java.version>
     </properties>

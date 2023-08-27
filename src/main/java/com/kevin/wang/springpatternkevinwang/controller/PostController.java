@@ -68,7 +68,7 @@ public class PostController {
         return ResultUtils.success(postId);
     }
 
-    @PostMapping("delete")
+    @PostMapping("/delete")
     public BaseResponse<Boolean> deletePost(DeleteRequest deleteRequest,HttpServletRequest request) {
         if(deleteRequest == null || deleteRequest.getId() <= 0) {
             throw new BussinessException(ErrorCode.PARAMS_ERROR);
@@ -116,7 +116,7 @@ public class PostController {
         return ResultUtils.success(postService.getPostVO(post,request));
     }
 
-    @GetMapping("/listPageVo")
+    @PostMapping("/listPageVo")
     public BaseResponse<Page<PostVO>> listPostVo(@RequestBody PostQueryRequest postQueryRequest, HttpServletRequest request) {
         long currentpage = postQueryRequest.getCurrent();
         long pagesize = postQueryRequest.getPageSize();
@@ -126,7 +126,7 @@ public class PostController {
         return ResultUtils.success(postService.getPostVOPage(postPage,request));
     }
 
-    @GetMapping("/my/list/page/vo")
+    @PostMapping("/my/list/page/vo")
     public BaseResponse<Page<PostVO>> listMyPageVo(@RequestBody PostQueryRequest postQueryRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(postQueryRequest==null,ErrorCode.PARAMS_ERROR);
         User loginUser = userService.getLoginUser(request);
@@ -137,14 +137,14 @@ public class PostController {
         return ResultUtils.success(postService.getPostVOPage(postPage,request));
     }
 
-    @GetMapping("/serach/page/vo")
+    @PostMapping("/serach/page/vo")
     public BaseResponse<Page<PostVO>> getPostVoPageByEs(@RequestBody PostQueryRequest postQueryRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(postQueryRequest==null,ErrorCode.PARAMS_ERROR);
         Page<Post> postPage = postService.searchFromEs(postQueryRequest);
         return ResultUtils.success(postService.getPostVOPage(postPage,request));
     }
 
-    @GetMapping("/edit")
+    @PostMapping("/edit")
     public BaseResponse<Boolean> editPost(@RequestBody PostEditRequest postEditRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(postEditRequest==null,ErrorCode.PARAMS_ERROR);
 
