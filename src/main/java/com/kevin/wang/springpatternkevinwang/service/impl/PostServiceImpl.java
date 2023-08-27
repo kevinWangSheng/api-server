@@ -72,13 +72,13 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         String content = post.getContent();
         String tags = post.getTags();
         // 如果任何这三个字段为空，那么就抛出异常
-        ThrowUtils.throwIf(StringUtils.isAnyBlank(title,content,tags),ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(StringUtils.isAllBlank(title,content,tags),ErrorCode.PARAMS_ERROR);
 
         if(title.length()>100){
             throw new BussinessException(ErrorCode.PARAMS_ERROR,"标题过长");
         }
 
-        if(content.length()>8152){
+        if(content!=null && content.length()>8152){
             throw new BussinessException(ErrorCode.PARAMS_ERROR,"内容过长");
         }
     }
@@ -104,8 +104,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         queryWrapper.lambda().like(StringUtils.isNotBlank(title),Post::getTitle,title)
                 .like(StringUtils.isNotBlank(content),Post::getContent,content);
-        for(String tag:tags){
-            queryWrapper.lambda().like(StringUtils.isNotBlank(tag),Post::getTags,"\""+tag+"\"");
+        if(tags!=null) {
+            for (String tag : tags) {
+                queryWrapper.lambda().like(StringUtils.isNotBlank(tag), Post::getTags, "\"" + tag + "\"");
+            }
         }
         queryWrapper.lambda().ne(notId!=null,Post::getId,notId)
                 .eq(id!=null,Post::getId,id)

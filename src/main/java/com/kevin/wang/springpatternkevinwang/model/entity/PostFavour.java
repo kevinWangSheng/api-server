@@ -24,7 +24,7 @@ public class PostFavour implements Serializable {
     @TableField(value = "userId")
     private Long userId;
 
-    @TableField(value = "userId")
+    @TableField(value = "postId")
     private Long postId;
 
     @TableField(value = "createTime")

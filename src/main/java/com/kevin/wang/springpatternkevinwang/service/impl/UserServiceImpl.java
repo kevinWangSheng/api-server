@@ -64,7 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(!userPassword.equals(checkPassword)) {
             throw new BussinessException(ErrorCode.PARAMS_ERROR, "请确认密码一致");
         }
-        if(userAccount.length()<6 || userPassword.length()<6) {
+        if(userAccount.length()<4 || userPassword.length()<4) {
             throw new BussinessException(ErrorCode.PARAMS_ERROR,"账户和密码的位数都应该大于等于6位");
         }
 
@@ -95,7 +95,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (userAccount.length() < 4) {
             throw new BussinessException(ErrorCode.PARAMS_ERROR, "账号错误");
         }
-        if (userPassword.length() < 8) {
+        if (userPassword.length() < 4) {
             throw new BussinessException(ErrorCode.PARAMS_ERROR, "密码错误");
         }
         // 2. 加密
@@ -134,7 +134,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 user = new User();
                 user.setUnionId(unionId);
                 user.setMpOpenId(mpOpenId);
-                user.setUserAvator(wxOAuth2UserInfo.getHeadImgUrl());
+                user.setUserAvatar(wxOAuth2UserInfo.getHeadImgUrl());
                 user.setUserName(wxOAuth2UserInfo.getNickname());
                 boolean result = this.save(user);
                 if (!result) {

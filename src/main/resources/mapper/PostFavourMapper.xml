@@ -14,8 +14,8 @@
     </sql>
     <select id="listFavourPostPage" resultType="com.kevin.wang.springpatternkevinwang.model.entity.Post">
         select p.* from post p
-            join( select postId from post_favour where userId = #{userId} ) f
-            on p.id = f.postId #{ew.customSqlSegment};
+            join( select postId from post_favour f where f.userId = #{favourUserId} ) f
+            on p.id = f.postId ${ew.customSqlSegment}
     </select>
 
 

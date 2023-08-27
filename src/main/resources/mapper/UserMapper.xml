@@ -8,7 +8,7 @@
         <result property="unionId" column="unionId" jdbcType="VARCHAR"></result>
         <result property="mpOpenId" column="mpOpenId" jdbcType="VARCHAR"></result>
         <result property="userName" column="userName" jdbcType="VARCHAR"></result>
-        <result property="userAvator" column="userAvator" jdbcType="VARCHAR"></result>
+        <result property="userAvatar" column="userAvatar" jdbcType="VARCHAR"></result>
         <result property="userProfile" column="userProfile" jdbcType="VARCHAR"></result>
         <result property="userRole" column="userRole" jdbcType="VARCHAR"></result>
         <result property="createTime" column="createTime" jdbcType="TIMESTAMP"></result>

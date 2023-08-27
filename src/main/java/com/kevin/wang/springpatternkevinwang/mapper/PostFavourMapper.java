@@ -15,5 +15,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface PostFavourMapper extends BaseMapper<PostFavour> {
 
-    Page<Post> listFavourPostPage(IPage<Post> page, @Param(Constants.WRAPPER) Wrapper<Post> wrapper,@Param("userId")Long favourUserId);
+    Page<Post> listFavourPostPage(IPage<Post> page, @Param(Constants.WRAPPER) Wrapper<Post> wrapper,@Param("favourUserId")Long favourUserId);
 }

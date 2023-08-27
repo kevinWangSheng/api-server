@@ -131,7 +131,7 @@ public class UserController {
 
         User user = new User();
         BeanUtil.copyProperties(userUpdateRequest,user);
-        boolean result = userService.save(user);
+        boolean result = userService.updateById(user);
         ThrowUtils.throwIf(!result,ErrorCode.SYSTEM_ERROR);
         return ResultUtils.success(result);
     }

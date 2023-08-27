@@ -37,8 +37,8 @@ public class User implements Serializable {
     @TableField(value ="mpOpenId")
     private String mpOpenId;
 
-    @TableField(value = "userAvator")
-    private String userAvator;
+    @TableField(value = "userAvatar")
+    private String userAvatar;
 
     @TableField(value = "userRole")
     private String userRole;
