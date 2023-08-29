@@ -58,6 +58,12 @@ public class User implements Serializable {
     @TableField(value = "isDelete")
     private Integer isDelete;
 
+    @TableField(value="accessKey")
+    private String accessKey;
+
+    @TableField("secretKey")
+    private String secretKey;
+
     @TableField(exist = false)
     private static final long serialVersionUid = 1l;
 }

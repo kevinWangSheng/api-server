@@ -1,9 +1,11 @@
 package com.kevin.wang.springpatternkevinwang.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.crypto.SignUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
+import com.kevin.wang.springpatternkevinwang.annotation.EncryptFields;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
 import com.kevin.wang.springpatternkevinwang.common.DeleteRequest;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
@@ -17,6 +19,8 @@ import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.vo.LoginUserVO;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserVO;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
+import com.kevin.wang.springpatternkevinwang.utils.KeyUtils;
+import com.kevin.wang.springpatternkevinwang.utils.ParamUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +32,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Key;
 import java.util.List;
 
 /**
@@ -40,23 +45,34 @@ import java.util.List;
 public class UserController {
 
     @Resource
+    private ParamUtils paramUtils;
+    @Resource
     private UserService userService;
 
     @Resource
     private WxOpenConfig wxOpenConfig;
 
+    private final String ACCESSKEY= "accessKey";
+    private final String SIGN = "sign";
+    private final String BODY = "body";
+
 
     @PostMapping("/register")
-    public BaseResponse<Long> register(@RequestBody UserRegistryRequest registerRequest) {
+    public BaseResponse<Long> register(@RequestBody UserRegistryRequest registerRequest,HttpServletRequest request) {
         ThrowUtils.throwIf(registerRequest==null, ErrorCode.PARAMS_ERROR);
-
+        ThrowUtils.throwIf(!paramUtils.vilateKeyParam(request),ErrorCode.PARAMS_ERROR);
+        String accessKey = request.getHeader(ACCESSKEY);
+        String body = request.getHeader(BODY);
+        String sign = request.getHeader(SIGN);
+        accessKey = KeyUtils.generateKey(accessKey);
+        String secretKey = KeyUtils.generateSign(body,sign);
         String userAccount = registerRequest.getUserAccount();
         String password = registerRequest.getPassword();
         String checkPassword = registerRequest.getCheckPassword();
-        if(StringUtils.isAnyBlank(userAccount,password,checkPassword)){
+        if(StringUtils.isAnyBlank(userAccount,password,checkPassword,accessKey,secretKey)){
             throw new BussinessException(ErrorCode.PARAMS_ERROR);
         }
-        long userId = userService.userRegister(userAccount, password, checkPassword);
+        long userId = userService.userRegister(userAccount, password, checkPassword,accessKey,secretKey);
         return ResultUtils.success(userId);
     }
 
@@ -103,9 +119,15 @@ public class UserController {
     @AuthCheck(mustRole = UserConstant.USER_ADMIN)
     public BaseResponse<Boolean> addUser(@RequestBody UserAddRequest userAddRequest,HttpServletRequest request) {
         ThrowUtils.throwIf(userAddRequest==null,ErrorCode.PARAMS_ERROR);
-
+        ThrowUtils.throwIf(!paramUtils.vilateKeyParam(request), ErrorCode.OPERATION_ERROR);
+        String accessKey = request.getHeader("accessKey");
+        String body = request.getHeader("body");
+        String sign = request.getHeader("sign");
+        ThrowUtils.throwIf(StringUtils.isAnyBlank(accessKey,body,sign),ErrorCode.OPERATION_ERROR);
         User user = new User();
         BeanUtil.copyProperties(userAddRequest,user);
+        user.setAccessKey(KeyUtils.generateKey(accessKey));
+        user.setSecretKey(KeyUtils.generateSign(body,sign));
         boolean result = userService.save(user);
         return ResultUtils.success(result);
     }

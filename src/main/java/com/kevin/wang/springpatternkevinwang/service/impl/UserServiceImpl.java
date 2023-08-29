@@ -13,6 +13,7 @@ import com.kevin.wang.springpatternkevinwang.model.enums.UserRoleEnums;
 import com.kevin.wang.springpatternkevinwang.model.vo.LoginUserVO;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserVO;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
+import com.kevin.wang.springpatternkevinwang.utils.KeyUtils;
 import com.kevin.wang.springpatternkevinwang.utils.SQLUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public long userRegister(String userAccount, String userPassword, String checkPassword) {
+    public long userRegister(String userAccount, String userPassword, String checkPassword,String accessKey,String secretKey) {
         if(userAccount==null || userPassword==null || checkPassword==null) {
             throw new BussinessException(ErrorCode.PARAMS_ERROR,"请输入不为空的账户和密码");
         }
@@ -78,6 +79,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setUserAccount(userAccount);
             String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
             user.setUserPassword(encryptPassword);
+            user.setAccessKey(KeyUtils.generateKey(accessKey));
+            user.setSecretKey(KeyUtils.generateKey(secretKey));
             int result = userMapper.insert(user);
             if (result>0)
                 return user.getId();
