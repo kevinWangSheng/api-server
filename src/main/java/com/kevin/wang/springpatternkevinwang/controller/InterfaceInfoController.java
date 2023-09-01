@@ -1,6 +1,7 @@
 package com.kevin.wang.springpatternkevinwang.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
@@ -11,12 +12,17 @@ import com.kevin.wang.springpatternkevinwang.common.ResultUtils;
 import com.kevin.wang.springpatternkevinwang.constant.UserConstant;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
+import com.kevin.wang.springpatternkevinwang.model.dto.common.IdRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoAddRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoEditRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
+import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInvokeRequest;
 import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.model.entity.User;
+import com.kevin.wang.springpatternkevinwang.model.enums.InterfaceInfoStatusEnum;
+import com.kevin.wang.springpatternkevinwang.model.enums.UserRoleEnums;
 import com.kevin.wang.springpatternkevinwang.model.vo.InterfaceInfoVO;
+import com.kevin.wang.springpatternkevinwang.model.vo.UserVO;
 import com.kevin.wang.springpatternkevinwang.service.InterfaceInfoService;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
 import jakarta.annotation.Resource;
@@ -44,7 +50,21 @@ public class InterfaceInfoController {
 
     private final static Gson GSON = new Gson();
 
-
+    @GetMapping("/list/page")
+    public BaseResponse<Page<InterfaceInfoVO>> getInterfaceInfoList(InterfaceInfoQueryRequest queryRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(queryRequest==null,new BussinessException(ErrorCode.PARAMS_ERROR));
+        long pageSize = queryRequest.getPageSize();
+        long current = queryRequest.getCurrent();
+        User loginUser = userService.getLoginUser(request);
+        // 不是管理员的话，就让他只能够管理属于自己的接口
+        if(loginUser.getUserRole()!= UserRoleEnums.ADMIN.getValue()){
+            queryRequest.setUserId(loginUser.getId());
+        }
+        QueryWrapper<InterfaceInfo> queryWrapper = interfaceInfoService.getQueryWrapper(queryRequest);
+        Page<InterfaceInfo> page = interfaceInfoService.page(new Page<>(current, pageSize), queryWrapper);
+        Page<InterfaceInfoVO> pageVo = interfaceInfoService.getInterfaceInfoVOPage(page);
+        return ResultUtils.success(pageVo);
+    }
 
     @PostMapping("/add")
     public BaseResponse<Long> addInterfaceInfo(@RequestBody InterfaceInfoAddRequest interfaceInfoRequest, HttpServletRequest request) {
@@ -164,6 +184,64 @@ public class InterfaceInfoController {
         }
         boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
+    }
+
+    @PostMapping("/online")
+    public BaseResponse<Boolean> letInterfaceOnline(@RequestBody IdRequest idRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(idRequest==null,ErrorCode.PARAMS_ERROR);
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(idRequest.getId());
+        ThrowUtils.throwIf(interfaceInfo==null,ErrorCode.NOT_FOUND_ERROR);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.Online.getValue());
+        InterfaceInfo newInterface = new InterfaceInfo();
+        newInterface.setId(interfaceInfo.getId()).setStatus(InterfaceInfoStatusEnum.Online.getValue());
+        boolean result = interfaceInfoService.updateById(newInterface);
+        return ResultUtils.success(result);
+    }
+
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = UserConstant.USER_ADMIN)
+    public BaseResponse<Boolean> letInterfaceDown(@RequestBody IdRequest idRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(idRequest==null,ErrorCode.PARAMS_ERROR);
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(idRequest.getId());
+        ThrowUtils.throwIf(interfaceInfo==null,ErrorCode.NOT_FOUND_ERROR);
+        InterfaceInfo newInterface = new InterfaceInfo();
+        newInterface.setId(interfaceInfo.getId()).setStatus(InterfaceInfoStatusEnum.Down.getValue());
+        boolean result = interfaceInfoService.updateById(newInterface);
+        return ResultUtils.success(result);
+    }
+
+    @GetMapping("/get")
+    public BaseResponse<InterfaceInfoVO> getInterfaceInfo(IdRequest idRequest, HttpServletRequest request) {
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(idRequest.getId());
+        InterfaceInfoVO interfaceInfoVO = interfaceInfoService.getInterfaceInfoVO(interfaceInfo);
+        return ResultUtils.success(interfaceInfoVO);
+    }
+
+    @PostMapping("/invoke")
+    public BaseResponse<?> invokeInterface(@RequestBody InterfaceInvokeRequest invokeRequest,HttpServletRequest request){
+        ThrowUtils.throwIf(invokeRequest==null,ErrorCode.PARAMS_ERROR);
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(invokeRequest.getId());
+        ThrowUtils.throwIf(interfaceInfo==null,ErrorCode.NOT_FOUND_ERROR);
+        User loginUser = userService.getLoginUser(request);
+        ThrowUtils.throwIf(loginUser==null,ErrorCode.NOT_LOGIN_ERROR);
+        ThrowUtils.throwIf(interfaceInfo.getStatus()==InterfaceInfoStatusEnum.Down.getValue(),ErrorCode.OPERATION_ERROR);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+
+        //这里还没有处理完成，想办法处理一下，如何根据这个accessKey进行对应的调用接口，
+        //用什么方式来调用接口。
+
+        return ResultUtils.success("ok");
+    }
+
+    @GetMapping("/getMaxInvoke")
+    public BaseResponse<?> getMaxInvoke(HttpServletRequest request) {
+        List<InterfaceInfoVO> interfaceInfoVOS = interfaceInfoService.slectMaxInvokeInterface();
+        interfaceInfoVOS.stream().forEach(interfaceInfoVO -> {
+            UserVO userVO = userService.getUserVO(userService.getById(interfaceInfoVO.getUserId()));
+            interfaceInfoVO.setUserVO(userVO);
+        });
+        return ResultUtils.success(interfaceInfoVOS);
     }
 }
 

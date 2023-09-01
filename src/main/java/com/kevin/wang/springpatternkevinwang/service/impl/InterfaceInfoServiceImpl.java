@@ -33,6 +33,8 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
     implements InterfaceInfoService{
 
     @Resource
+    private InterfaceInfoMapper interfaceInfoMapper;
+    @Resource
     private UserService userService;
     @Override
     public void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean add) {
@@ -98,21 +100,20 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
 
         QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(interfaceInfoQueryRequest.getId()!=null,InterfaceInfo::getId,interfaceInfoQueryRequest.getId())
-                .or()
                 .eq(interfaceInfoQueryRequest.getMethod()!=null,InterfaceInfo::getMethod,interfaceInfoQueryRequest.getMethod())
-                .or()
-                .eq(interfaceInfoQueryRequest.getUrl()!=null,InterfaceInfo::getUrl,interfaceInfoQueryRequest.getUrl())
-                .or()
+                .like(interfaceInfoQueryRequest.getUrl()!=null,InterfaceInfo::getUrl,interfaceInfoQueryRequest.getUrl())
                 .eq(interfaceInfoQueryRequest.getUserId()!=null,InterfaceInfo::getUserId,interfaceInfoQueryRequest.getUserId())
-                .or()
                 .like(interfaceInfoQueryRequest.getDescription()!=null,InterfaceInfo::getDescription,interfaceInfoQueryRequest.getDescription())
-                .or()
                 .like(interfaceInfoQueryRequest.getName()!=null,InterfaceInfo::getName,interfaceInfoQueryRequest.getName())
-                .or()
                 .like(interfaceInfoQueryRequest.getRequestHeader()!=null,InterfaceInfo::getRequestHeader,interfaceInfoQueryRequest.getRequestHeader())
-                .or()
-                .like(interfaceInfoQueryRequest.getResponseHeader()!=null,InterfaceInfo::getResponseHeader,interfaceInfoQueryRequest.getResponseHeader());
+                .like(interfaceInfoQueryRequest.getResponseHeader()!=null,InterfaceInfo::getResponseHeader,interfaceInfoQueryRequest.getResponseHeader())
+                .eq(interfaceInfoQueryRequest.getStatus()!=null,InterfaceInfo::getStatus,interfaceInfoQueryRequest.getStatus());
         return queryWrapper;
+    }
+
+    @Override
+    public List<InterfaceInfoVO> slectMaxInvokeInterface() {
+        return interfaceInfoMapper.getMaxInvokeInterface();
     }
 }
 

@@ -57,4 +57,6 @@ public class InterfaceInfoVO {
 
     private UserVO userVO;
 
+    private Integer invokeCount;
+
 }

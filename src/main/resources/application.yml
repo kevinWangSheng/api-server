@@ -41,16 +41,25 @@ spring:
     multipart:
       # 大小限制
       max-file-size: 10MB
+  main:
+    allow-circular-references: true
   data:
     redis:
       host: 43.143.248.43
       port: 6379
       password: 123456
-  main:
-    allow-circular-references: true
+  freemarker:
+    check-template-location: false
+#  graphql:
+#    cors:
+#      allow-credentials: true
+#      allowed-headers: '*'
+#      allowed-origin-patterns: '*'
+#      allowed-methods: '*'
+#      exposed-headers: "Content-Disposition,Content-Type,Cache-Control"
 server:
   address: 0.0.0.0
-  port: 8101
+  port: 7529
   servlet:
     context-path: /api
     # cookie 30 天过期
@@ -81,6 +90,7 @@ wx:
       redis:
         host: 43.143.248.43
         port: 6379
+        password: 123456
       type: Memory
   # 微信开放平台
   # todo 需替换配置
@@ -113,3 +123,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+openapi:
+  client:
+    access-key: kevin
+    secret-key: abcde
+

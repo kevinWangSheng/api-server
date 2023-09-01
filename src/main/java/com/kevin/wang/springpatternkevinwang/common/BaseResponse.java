@@ -32,10 +32,10 @@ public class BaseResponse<T>implements Serializable {
     }
 
     public static BaseResponse success(String message,Object data){
-        return new BaseResponse(200,message,data);
+        return new BaseResponse(0,message,data);
     }
 
     public static BaseResponse success(String message){
-        return new BaseResponse(200,message,null);
+        return new BaseResponse(0,message,null);
     }
 }

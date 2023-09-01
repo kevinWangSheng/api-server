@@ -24,4 +24,6 @@ public interface InterfaceInfoService extends IService<InterfaceInfo> {
     Page<InterfaceInfoVO> getInterfaceInfoVOPage(Page<InterfaceInfo> interfaceInfoPage);
 
     QueryWrapper<InterfaceInfo> getQueryWrapper(InterfaceInfoQueryRequest interfaceInfoQueryRequest);
+
+    List<InterfaceInfoVO> slectMaxInvokeInterface();
 }

@@ -29,6 +29,10 @@ public class InterfaceInfoEditRequest implements Serializable {
     private String description;
 
     private Long userId;
+    /**
+     * 请求参数
+     */
+    private String requestParam;
 
     private static final long serialVersionUID = 1L;
 

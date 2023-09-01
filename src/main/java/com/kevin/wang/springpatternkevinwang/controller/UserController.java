@@ -1,11 +1,9 @@
 package com.kevin.wang.springpatternkevinwang.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.crypto.SignUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
-import com.kevin.wang.springpatternkevinwang.annotation.EncryptFields;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
 import com.kevin.wang.springpatternkevinwang.common.DeleteRequest;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
@@ -32,12 +30,11 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Key;
 import java.util.List;
 
 /**
  * @author wang
- * @create 2023-2023-24-0:31
+ * @create 2023-05-24-0:31
  */
 @RestController
 @RequestMapping("/user")
@@ -77,14 +74,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public BaseResponse<LoginUserVO> login(@RequestBody UserLoginRequest loginRequest, HttpServletRequest request) {
-        ThrowUtils.throwIf(loginRequest==null, ErrorCode.PARAMS_ERROR);
+    public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(userLoginRequest==null, ErrorCode.PARAMS_ERROR);
 
-        String userAccount = loginRequest.getUserAccount();
-        String password = loginRequest.getPassword();
+        String userAccount = userLoginRequest.getUserAccount();
+        String password = userLoginRequest.getUserPassword();
         if(StringUtils.isAnyBlank(userAccount,password)){
             throw new BussinessException(ErrorCode.PARAMS_ERROR);
         }
+
         LoginUserVO loginUserVO = userService.userLogin(userAccount, password,request);
         return ResultUtils.success(loginUserVO);
     }
@@ -115,6 +113,12 @@ public class UserController {
         return ResultUtils.success(result);
     }
 
+    @GetMapping("/get/login")
+    public BaseResponse<LoginUserVO> getLoginUserVo(HttpServletRequest request) {
+        User rootUser = userService.getById(1695396788623720450l);
+        LoginUserVO loginUserVO = userService.getLoginUserVO(rootUser);
+        return ResultUtils.success(loginUserVO);
+    }
     @PostMapping("/add")
     @AuthCheck(mustRole = UserConstant.USER_ADMIN)
     public BaseResponse<Boolean> addUser(@RequestBody UserAddRequest userAddRequest,HttpServletRequest request) {

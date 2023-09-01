@@ -25,4 +25,19 @@
         status,method,userId,
         createTime,updateTime,isDelete
     </sql>
+    <select id="getMaxInvokeInterface"
+            resultType="com.kevin.wang.springpatternkevinwang.model.vo.InterfaceInfoVO">
+        select id as id,
+               name,
+               description,
+               url,
+               requestHeader,
+               responseHeader,
+               status,
+               method,
+               userId,
+               invokeCount
+        from interface_info
+        where invokeCount = (select max(invokeCount) from interface_info);
+     </select>
 </mapper>
