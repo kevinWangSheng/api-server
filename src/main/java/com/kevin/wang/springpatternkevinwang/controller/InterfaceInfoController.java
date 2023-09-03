@@ -3,6 +3,7 @@ package com.kevin.wang.springpatternkevinwang.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.oppenapiclientsdk.client.OpenApiClient;
 import com.google.gson.Gson;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
@@ -13,10 +14,7 @@ import com.kevin.wang.springpatternkevinwang.constant.UserConstant;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
 import com.kevin.wang.springpatternkevinwang.model.dto.common.IdRequest;
-import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoAddRequest;
-import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoEditRequest;
-import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInvokeRequest;
+import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.*;
 import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.enums.InterfaceInfoStatusEnum;
@@ -47,6 +45,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private OpenApiClient openApiClient;
 
     private final static Gson GSON = new Gson();
 
@@ -243,6 +244,18 @@ public class InterfaceInfoController {
         });
         return ResultUtils.success(interfaceInfoVOS);
     }
+
+    @GetMapping("/invokeOpenApi")
+    public BaseResponse<?> invokeOpenApi(InvokeInterfaceRequest invokeInterfaceRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(invokeInterfaceRequest==null || request==null,ErrorCode.PARAMS_ERROR);
+        User loginUser = userService.getLoginUser(request);
+        ThrowUtils.throwIf(loginUser==null,ErrorCode.NOT_LOGIN_ERROR);
+
+        String result = openApiClient.getNameByGet(invokeInterfaceRequest.getParam());
+
+        return ResultUtils.success(result);
+    }
+
 }
 
 

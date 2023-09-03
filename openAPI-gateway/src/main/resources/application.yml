@@ -1,0 +1,44 @@
+
+server:
+  port: 8081
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: after_route
+          uri: http://localhost:7529
+          predicates:
+            - Path=/api/**
+          filters:
+            - AddRequestHeader=swag, kevin
+            - AddRequestParameter=name,kevin
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  data:
+    redis:
+      host: 43.143.248.43
+      password: 123456
+      port: 6379
+  application:
+    name: open-api-gateway
+#            - Cookie=mycookie,mycookievalue
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
+
+dubbo:
+  application:
+    # 设置应用的名称
+    name: dubbo-springboot-demo-consumer
+  # 指定使用 Dubbo 协议，且端口设置为 -1，表示随机分配可用端口
+  protocol:
+    name: dubbo
+    port: 4950
+  registry:
+    # 配置注册中心为 Nacos，使用的地址是 nacos://localhost:8848
+    id: nacos-registry
+    address: nacos://localhost:8848

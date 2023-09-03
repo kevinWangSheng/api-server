@@ -1,10 +1,7 @@
 package com.kevin.wang.springpatternkevinwang.model.dto.user;
 
-import com.kevin.wang.springpatternkevinwang.annotation.EncryptField;
-import com.kevin.wang.springpatternkevinwang.annotation.EncryptFields;
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
