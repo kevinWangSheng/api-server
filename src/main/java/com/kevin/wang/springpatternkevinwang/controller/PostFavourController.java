@@ -1,18 +1,15 @@
 package com.kevin.wang.springpatternkevinwang.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kevin.common.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
 import com.kevin.wang.springpatternkevinwang.common.ResultUtils;
-import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
-import com.kevin.wang.springpatternkevinwang.model.dto.post.PostAddRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.post.PostQueryRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.postfavour.PostFavourAddRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.postfavour.PostFavourQueryRequest;
 import com.kevin.wang.springpatternkevinwang.model.entity.Post;
-import com.kevin.wang.springpatternkevinwang.model.entity.PostFavour;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.vo.PostVO;
 import com.kevin.wang.springpatternkevinwang.service.PostFavourService;
 import com.kevin.wang.springpatternkevinwang.service.PostService;
@@ -21,8 +18,6 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author wang

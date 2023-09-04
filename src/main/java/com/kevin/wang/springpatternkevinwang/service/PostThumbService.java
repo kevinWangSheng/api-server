@@ -1,8 +1,8 @@
 package com.kevin.wang.springpatternkevinwang.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kevin.common.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.entity.PostThumb;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 
 /**
  * @author wang

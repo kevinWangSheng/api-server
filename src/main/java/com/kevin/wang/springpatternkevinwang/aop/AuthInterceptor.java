@@ -1,10 +1,10 @@
 package com.kevin.wang.springpatternkevinwang.aop;
 
+import com.kevin.common.model.entity.User;
+import com.kevin.common.model.enums.UserRoleEnums;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
-import com.kevin.wang.springpatternkevinwang.model.enums.UserRoleEnums;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

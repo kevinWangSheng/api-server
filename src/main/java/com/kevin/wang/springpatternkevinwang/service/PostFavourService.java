@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kevin.common.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.entity.Post;
 import com.kevin.wang.springpatternkevinwang.model.entity.PostFavour;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 
 /**
  * @author wang

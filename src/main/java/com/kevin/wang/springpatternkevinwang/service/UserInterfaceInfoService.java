@@ -2,10 +2,10 @@ package com.kevin.wang.springpatternkevinwang.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kevin.common.model.entity.UserInterfaceInfo;
+import com.kevin.common.model.vo.UserInterfaceInfoVO;
 import com.kevin.wang.springpatternkevinwang.model.dto.userInterfaceInfo.UserInterfaceInfoQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.UserInterfaceInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kevin.wang.springpatternkevinwang.model.vo.UserInterfaceInfoVO;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
 package com.kevin.wang.springpatternkevinwang.controller;
 
+import com.kevin.common.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
 import com.kevin.wang.springpatternkevinwang.common.ResultUtils;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
 import com.kevin.wang.springpatternkevinwang.model.dto.postThumb.PostThumbAddRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.service.PostThumbService;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
 import jakarta.annotation.Resource;

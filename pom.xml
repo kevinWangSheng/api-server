@@ -11,6 +11,7 @@
     <groupId>com.kevin.wang</groupId>
     <artifactId>spring-pattern-kevin-wang</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>openAPI-server</name>
     <description>a openAPI platform</description>
     <properties>
@@ -165,6 +166,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.kevin.openapi</groupId>
+            <artifactId>openAPI-common-interface</artifactId>
+            <version>0.0.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client -->
         <dependency>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kevin.wang.springpatternkevinwang.mapper.UserMapper">
-    <resultMap id="BaseMapper" type="com.kevin.wang.springpatternkevinwang.model.entity.User">
+    <resultMap id="BaseMapper" type="com.kevin.common.model.entity.User">
         <id property="id" column="id" jdbcType="BIGINT"></id>
         <result property="userAccount" column="userAccount" jdbcType="VARCHAR"></result>
         <result property="userPassword" column="userPassword" jdbcType="VARCHAR"></result>
@@ -17,5 +17,4 @@
         <result property="accessKey" column="accessKey" jdbcType="VARCHAR"></result>
         <result property="secretKey" column="secretKey" jdbcType="VARCHAR"></result>
     </resultMap>
-
 </mapper>

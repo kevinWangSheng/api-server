@@ -3,6 +3,7 @@ package com.kevin.wang.springpatternkevinwang.model.vo;
 import cn.hutool.core.bean.BeanUtil;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.kevin.common.model.vo.UserVO;
 import com.kevin.wang.springpatternkevinwang.model.entity.Post;
 import lombok.Data;
 import lombok.experimental.Accessors;

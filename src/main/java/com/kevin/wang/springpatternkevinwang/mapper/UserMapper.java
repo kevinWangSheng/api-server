@@ -1,7 +1,7 @@
 package com.kevin.wang.springpatternkevinwang.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
+import com.kevin.common.model.entity.User;
 
 /**
  * @author wang

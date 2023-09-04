@@ -1,8 +1,8 @@
 package com.kevin.wang.springpatternkevinwang.mapper;
 
-import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kevin.wang.springpatternkevinwang.model.vo.InterfaceInfoVO;
+import com.kevin.common.model.entity.InterfaceInfo;
+import com.kevin.common.model.vo.InterfaceInfoVO;
 
 import java.util.List;
 
