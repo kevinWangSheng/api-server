@@ -30,6 +30,6 @@ public class InterfaceInfoAddRequest implements Serializable {
     /**
      * 请求头信息
      * */
-    private String requestParam;
+    private String requestParams;
 
 }

@@ -23,7 +23,7 @@ import java.util.UUID;
 @Slf4j
 public class LoginInterceptor {
 
-    @Around("execution(* com.kevin.wang.springpatternkevinwang.controller.*.*(..))")
+//    @Around("execution(* com.kevin.wang.springpatternkevinwang.controller.*.*(..))")
     public Object doInterceptor(ProceedingJoinPoint point) throws Throwable {
         // 创建一个计时器用来即使用
         StopWatch watch = new StopWatch();

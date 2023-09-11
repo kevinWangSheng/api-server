@@ -17,11 +17,11 @@
 package com.kevin.wang.springpatternkevinwang.service.impl;
 
 
+import com.dubbo.service.HelloDubbo;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.springboot.demo.DemoService;
 
 @DubboService
-public class DemoServiceImpl implements DemoService {
+public class DemoServiceImpl implements HelloDubbo {
 
     @Override
     public String sayHello(String name) {

@@ -2,8 +2,8 @@ package com.kevin.wang.springpatternkevinwang.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dubbo.model.entity.UserInterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.model.dto.userInterfaceInfo.UserInterfaceInfoQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.UserInterfaceInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserInterfaceInfoVO;
 
@@ -26,5 +26,9 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
 
     List<UserInterfaceInfoVO> slectMaxInvokeInterface();
 
+    boolean invokeAdd(long userInterfaceInfoId,long userId,Integer version);
+
     boolean invokeAdd(long userInterfaceInfoId,long userId);
+
+    Page<String> getTopInterfaceInvoke(Integer pageSize);
 }

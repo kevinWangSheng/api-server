@@ -1,6 +1,5 @@
 package com.kevin.wang.springpatternkevinwang.service.impl;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,19 +7,20 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dubbo.model.entity.InterfaceInfo;
+import com.dubbo.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
 import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.vo.InterfaceInfoVO;
 import com.kevin.wang.springpatternkevinwang.service.InterfaceInfoService;
 import com.kevin.wang.springpatternkevinwang.mapper.InterfaceInfoMapper;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, InterfaceInfo>
     implements InterfaceInfoService{
+
 
     @Resource
     private InterfaceInfoMapper interfaceInfoMapper;
@@ -57,7 +58,7 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
             throw new BussinessException(ErrorCode.PARAMS_ERROR,"url长度过长");
         }
         // 验证当前用户是否登录，如果没有登录，不能够对他进行操作.
-        Optional.of(userService.getById(userId)).orElseThrow(()->new BussinessException(ErrorCode.NOT_LOGIN_ERROR));
+        Optional.of(SecurityUtils.getSubject().getPrincipal()).orElseThrow(()->new BussinessException(ErrorCode.NOT_LOGIN_ERROR));
     }
 
     @Override
@@ -76,7 +77,7 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
 
         List<InterfaceInfo> infoPageRecords = interfaceInfoPage.getRecords();
 
-        Page<InterfaceInfoVO> interfaceInfoVOPage = new Page<>(interfaceInfoPage.getCurrent(), interfaceInfoPage.getPages());
+        Page<InterfaceInfoVO> interfaceInfoVOPage = new Page<>(interfaceInfoPage.getCurrent(), interfaceInfoPage.getPages(),interfaceInfoPage.getTotal());
 
         List<InterfaceInfoVO> interfaceInfoVOList = new ArrayList<>();
         infoPageRecords.stream().forEach(interfaceInfo -> {
@@ -114,6 +115,15 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
     @Override
     public List<InterfaceInfoVO> slectMaxInvokeInterface() {
         return interfaceInfoMapper.getMaxInvokeInterface();
+    }
+
+    @Override
+    public List<String> listName(List<Long> topInvitationIds) {
+        if(topInvitationIds==null || topInvitationIds.size()==0){
+            return null;
+        }
+        List<String> topInterfaceName = interfaceInfoMapper.listTopInvokeNmae(topInvitationIds);
+        return topInterfaceName;
     }
 }
 

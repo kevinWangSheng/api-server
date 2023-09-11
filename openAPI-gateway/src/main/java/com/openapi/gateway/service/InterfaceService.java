@@ -1,4 +1,4 @@
-package com.openapi.gateway.component.service;
+package com.openapi.gateway.service;
 
 /**
  * @author wang

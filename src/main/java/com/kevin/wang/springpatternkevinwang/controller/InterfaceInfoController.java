@@ -1,8 +1,13 @@
 package com.kevin.wang.springpatternkevinwang.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import co.elastic.clients.elasticsearch.nodes.Http;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dubbo.model.entity.InterfaceInfo;
+import com.dubbo.model.entity.User;
 import com.example.oppenapiclientsdk.client.OpenApiClient;
 import com.google.gson.Gson;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
@@ -15,21 +20,29 @@ import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
 import com.kevin.wang.springpatternkevinwang.model.dto.common.IdRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.*;
-import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
+import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceAuthCode;
 import com.kevin.wang.springpatternkevinwang.model.enums.InterfaceInfoStatusEnum;
 import com.kevin.wang.springpatternkevinwang.model.enums.UserRoleEnums;
 import com.kevin.wang.springpatternkevinwang.model.vo.InterfaceInfoVO;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserVO;
+import com.kevin.wang.springpatternkevinwang.service.InterfaceAuthCodeService;
 import com.kevin.wang.springpatternkevinwang.service.InterfaceInfoService;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
+import com.kevin.wang.springpatternkevinwang.utils.HttpUtils;
+import com.kevin.wang.springpatternkevinwang.utils.ParamUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wang
@@ -45,6 +58,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private InterfaceAuthCodeService interfaceAuthCodeService;
 
     @Resource
     private OpenApiClient openApiClient;
@@ -76,10 +92,10 @@ public class InterfaceInfoController {
         String method = interfaceInfoRequest.getMethod();
         String requestHeader = interfaceInfoRequest.getRequestHeader();
         String responseHeader = interfaceInfoRequest.getResponseHeader();
-
+        String requestParam = interfaceInfoRequest.getRequestParams();
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         // 填充属性值
-        interfaceInfo.setName(name).setDescription(description).setUrl(url).setMethod(method).setRequestHeader(requestHeader).setResponseHeader(responseHeader);
+        interfaceInfo.setName(name).setDescription(description).setUrl(url).setMethod(method).setRequestHeader(requestHeader).setResponseHeader(responseHeader).setRequestParams(requestParam);
         User loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
         boolean save = interfaceInfoService.save(interfaceInfo);
@@ -91,7 +107,7 @@ public class InterfaceInfoController {
 
     @PostMapping("/delete")
     @Transactional(rollbackFor = Exception.class)
-    public BaseResponse<Boolean> deleteInterfaceInfo( DeleteRequest deleteRequest,HttpServletRequest request) {
+    public BaseResponse<Boolean> deleteInterfaceInfo( @RequestBody DeleteRequest deleteRequest,HttpServletRequest request) {
         if(deleteRequest == null || deleteRequest.getId() <= 0) {
             throw new BussinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -226,13 +242,43 @@ public class InterfaceInfoController {
         User loginUser = userService.getLoginUser(request);
         ThrowUtils.throwIf(loginUser==null,ErrorCode.NOT_LOGIN_ERROR);
         ThrowUtils.throwIf(interfaceInfo.getStatus()==InterfaceInfoStatusEnum.Down.getValue(),ErrorCode.OPERATION_ERROR);
-        String accessKey = loginUser.getAccessKey();
-        String secretKey = loginUser.getSecretKey();
+        try {
+            if(interfaceInfo.getUrl().contains("localhost")||interfaceInfo.getUrl().contains("127.0.0.1")){
+                HttpResponse response = HttpUtils.exeucteLocalOrOther(interfaceInfo, invokeRequest);
+                return ResultUtils.success(EntityUtils.toString(response.getEntity()));
+            }
+        } catch (IOException e) {
+            log.error("error :{}",e.getMessage());
+            return null;
+        }
+        String result = null;
+        try {
+            InterfaceAuthCode interfaceAuthCode = interfaceAuthCodeService.getByInterfaceInfoId(interfaceInfo.getId());
+            String appCode = interfaceAuthCode.getAppCode();
+            String interfaceInfoUrl = interfaceInfo.getUrl();
+            URL url = new URL(interfaceInfoUrl);
+            String protocl = url.getProtocol();
+            String host = url.getHost();
+            String path = url.getPath();
+            String method = interfaceInfo.getMethod();
 
+            //传入的请求参数
+            String params = invokeRequest.getUserRequestParams();
+            Map<String, String> querys = ParamUtils.paramToStringParam(JSONUtil.toBean(params, Map.class));
+            Map<String,String> body = new HashMap<>(querys);
+            String requestHeader = interfaceInfo.getRequestHeader();
+            Map<String,String> requestHeaderMap = JSONUtil.toBean(requestHeader, Map.class);
+            requestHeaderMap.put("Authorization","APPCODE "+appCode);
+            HttpResponse response = HttpUtils.httpExecute(protocl+"://"+host, path, method, requestHeaderMap, querys, body);
+            ThrowUtils.throwIf(response==null,ErrorCode.SYSTEM_ERROR);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            log.error(e.getMessage() );
+            return ResultUtils.error(ErrorCode.SYSTEM_ERROR);
+        }
         //这里还没有处理完成，想办法处理一下，如何根据这个accessKey进行对应的调用接口，
         //用什么方式来调用接口。
-
-        return ResultUtils.success("ok");
+        return ResultUtils.success(result);
     }
 
     @GetMapping("/getMaxInvoke")

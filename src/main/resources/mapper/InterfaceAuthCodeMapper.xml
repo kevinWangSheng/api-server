@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.wang.springpatternkevinwang.mapper.InterfaceAuthCodeMapper">
+
+    <resultMap id="BaseResultMap" type="com.kevin.wang.springpatternkevinwang.model.entity.InterfaceAuthCode">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="interfaceInfoId" column="interface_info_id" jdbcType="BIGINT"/>
+            <result property="appCode" column="app_code" jdbcType="VARCHAR"/>
+            <result property="appKey" column="app_key" jdbcType="VARCHAR"/>
+            <result property="appSecret" column="app_secret" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,interface_info_id,app_code,
+        app_key,app_secret,create_time,
+        update_time,is_deleted
+    </sql>
+</mapper>

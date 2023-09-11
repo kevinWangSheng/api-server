@@ -1,6 +1,6 @@
-package com.openapi.gateway.component.service.impl;
+package com.openapi.gateway.service.impl;
 
-import com.openapi.gateway.component.service.InterfaceService;
+import com.openapi.gateway.service.InterfaceService;
 import org.springframework.stereotype.Service;
 
 /**

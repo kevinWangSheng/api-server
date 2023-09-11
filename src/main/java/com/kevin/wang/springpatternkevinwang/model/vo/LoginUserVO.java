@@ -25,5 +25,7 @@ public class LoginUserVO {
 
     private Date updateTime;
 
+    private String salt;
+
     private static final long serialVersionUID = 1L;
 }

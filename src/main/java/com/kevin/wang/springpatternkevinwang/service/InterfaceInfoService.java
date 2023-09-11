@@ -2,12 +2,10 @@ package com.kevin.wang.springpatternkevinwang.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dubbo.model.entity.InterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kevin.wang.springpatternkevinwang.model.entity.Post;
 import com.kevin.wang.springpatternkevinwang.model.vo.InterfaceInfoVO;
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
@@ -26,4 +24,6 @@ public interface InterfaceInfoService extends IService<InterfaceInfo> {
     QueryWrapper<InterfaceInfo> getQueryWrapper(InterfaceInfoQueryRequest interfaceInfoQueryRequest);
 
     List<InterfaceInfoVO> slectMaxInvokeInterface();
+
+    List<String> listName(List<Long> topInvitationIds);
 }

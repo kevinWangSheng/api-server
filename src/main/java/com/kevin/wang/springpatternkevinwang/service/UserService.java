@@ -2,8 +2,8 @@ package com.kevin.wang.springpatternkevinwang.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dubbo.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.dto.user.UserQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.vo.LoginUserVO;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserVO;
 import jakarta.servlet.http.HttpServletRequest;

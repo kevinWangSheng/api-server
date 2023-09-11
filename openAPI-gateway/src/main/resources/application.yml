@@ -1,4 +1,3 @@
-
 server:
   port: 8081
 spring:
@@ -12,9 +11,9 @@ spring:
           filters:
             - AddRequestHeader=swag, kevin
             - AddRequestParameter=name,kevin
-    nacos:
-      discovery:
-        server-addr: localhost:8848
+      httpclient:
+        connect-timeout: 15000
+
   data:
     redis:
       host: 43.143.248.43
@@ -22,7 +21,12 @@ spring:
       port: 6379
   application:
     name: open-api-gateway
-#            - Cookie=mycookie,mycookievalue
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://43.143.248.43:3306/kevinwang
+    username: root
+    password: 123456
+#         - Cookie=mycookie,mycookievalue
 logging:
   level:
     org:
@@ -42,3 +46,5 @@ dubbo:
     # 配置注册中心为 Nacos，使用的地址是 nacos://localhost:8848
     id: nacos-registry
     address: nacos://localhost:8848
+  consumer:
+    request-timeout: 15s

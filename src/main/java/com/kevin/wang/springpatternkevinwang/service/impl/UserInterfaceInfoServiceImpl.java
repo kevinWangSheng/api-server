@@ -5,18 +5,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dubbo.model.entity.UserInterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
 import com.kevin.wang.springpatternkevinwang.model.dto.userInterfaceInfo.UserInterfaceInfoQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
-import com.kevin.wang.springpatternkevinwang.model.entity.Post;
-import com.kevin.wang.springpatternkevinwang.model.entity.UserInterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserInterfaceInfoVO;
+import com.kevin.wang.springpatternkevinwang.service.InterfaceInfoService;
 import com.kevin.wang.springpatternkevinwang.service.UserInterfaceInfoService;
 import com.kevin.wang.springpatternkevinwang.mapper.UserInterfaceInfoMapper;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,10 +29,14 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
     implements UserInterfaceInfoService{
 
     @Resource
+    private InterfaceInfoService interfaceInfoService;
+    @Resource
     private UserInterfaceInfoMapper userInterfaceInfoMapper;
     @Override
     public QueryWrapper<UserInterfaceInfo> getQueryWrapper(UserInterfaceInfoQueryRequest userInterfaceInfoQueryRequest) {
-        ThrowUtils.throwIf(userInterfaceInfoQueryRequest==null, ErrorCode.PARAMS_ERROR);
+        if(userInterfaceInfoQueryRequest==null){
+            return new QueryWrapper<>();
+        }
 
         QueryWrapper<UserInterfaceInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(userInterfaceInfoQueryRequest.getId()!=null,UserInterfaceInfo::getId,userInterfaceInfoQueryRequest.getId())
@@ -89,13 +91,32 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
     }
 
     @Override
-    public boolean invokeAdd(long userInterfaceInfoId,long userId) {
-        ThrowUtils.throwIf(userInterfaceInfoId<=0 || userId<=0, ErrorCode.PARAMS_ERROR);
+    public boolean invokeAdd(long interfaceInfoId,long userId,Integer version) {
+        ThrowUtils.throwIf(interfaceInfoId<=0 || userId<=0, ErrorCode.PARAMS_ERROR);
         UpdateWrapper<UserInterfaceInfo> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.lambda().eq(UserInterfaceInfo::getId,userInterfaceInfoId)
+        updateWrapper.lambda().eq(UserInterfaceInfo::getInterfaceInfoId,interfaceInfoId)
                 .eq(UserInterfaceInfo::getUserId,userId)
-                .setSql("leftNum = leftNum - 1,totalNum = totalNum + 1");
+                .eq(version!=null && version!=0,UserInterfaceInfo::getVersion,version)
+                .setSql("leftNum = leftNum - 1,totalNum = totalNum + 1,version = version +1");
         return update(updateWrapper);
+    }
+
+    @Override
+    public boolean invokeAdd(long userInterfaceInfoId, long userId) {
+        return invokeAdd(userInterfaceInfoId, userId, 0);
+    }
+
+    @Override
+    public Page<String> getTopInterfaceInvoke(Integer pageSize) {
+        QueryWrapper<UserInterfaceInfo> wrapper = getQueryWrapper(null);
+        wrapper.orderByDesc("totalNum")
+                .select("interface_info_id");
+        List<Long> topInterfaceInvokeIds = userInterfaceInfoMapper.getTopInterfaceInvoke(pageSize);
+        List<String> topInterfaceNames = interfaceInfoService.listName(topInterfaceInvokeIds);
+
+        Page<String> topInterfacePages = new Page<>(1,pageSize);
+        topInterfacePages.setRecords(topInterfaceNames);
+        return topInterfacePages;
     }
 }
 

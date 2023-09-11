@@ -55,7 +55,7 @@ public class RedisUtlis {
     }
 
     public Set<Object> getZSET(String key){
-        return redisTemplate.opsForZSet().rangeByScore(key, 0, System.currentTimeMillis());
+        return redisTemplate.opsForZSet().rangeByScore(key, 0, System.currentTimeMillis()-60*1000*5);
     }
 
     public void removeZSetElement(String key, Object... element) {

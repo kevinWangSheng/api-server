@@ -2,6 +2,7 @@ package com.kevin.wang.springpatternkevinwang.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dubbo.model.entity.User;
 import com.google.gson.Gson;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
@@ -16,7 +17,6 @@ import com.kevin.wang.springpatternkevinwang.model.dto.post.PostEditRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.post.PostQueryRequest;
 import com.kevin.wang.springpatternkevinwang.model.dto.post.PostUploadRequest;
 import com.kevin.wang.springpatternkevinwang.model.entity.Post;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.vo.PostVO;
 import com.kevin.wang.springpatternkevinwang.service.PostService;
 import com.kevin.wang.springpatternkevinwang.service.UserService;

@@ -4,6 +4,7 @@ import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 
 import java.io.UnsupportedEncodingException;
+import java.net.http.HttpRequest;
 
 /**
  * @author wang
@@ -19,4 +20,6 @@ public class KeyUtils {
     public static String generateSign(String body,String sign) {
         return sha256.digestHex(body + ":" + sign);
     }
+    HttpRequest request;
+
 }

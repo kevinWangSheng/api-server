@@ -8,4 +8,9 @@ public interface CommonConstant {
     String SORT_ORDER_ASC = "ascend";
 
     String SORT_ORDER_DESC = "descend";
+
+    String RABBIT_MQ_USER_ACCESSKEY_QUEUE = "Q.RABBITMQ_USER_ACCESSKEY_QUEUE";
+
+    String QUEUE_ACCESSKEY_CHANNEL_QUEUE = "accessKey.delete.randonNum";
+
 }

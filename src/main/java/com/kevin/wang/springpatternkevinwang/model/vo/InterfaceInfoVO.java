@@ -24,7 +24,7 @@ public class InterfaceInfoVO {
      * 描述
      */
     private String description;
-
+    private String requestParams;
     /**
      * url地址
      */

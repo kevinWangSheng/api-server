@@ -1,15 +1,14 @@
 package com.kevin.wang.springpatternkevinwang.controller;
 
 import cn.hutool.core.io.FileUtil;
+import com.dubbo.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
 import com.kevin.wang.springpatternkevinwang.common.ResultUtils;
-import com.kevin.wang.springpatternkevinwang.constant.CommonConstant;
 import com.kevin.wang.springpatternkevinwang.constant.FileConstant;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.manager.CosManager;
 import com.kevin.wang.springpatternkevinwang.model.dto.file.UploadFileRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.enums.FileUploadBizEnum;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
 import jakarta.annotation.Resource;

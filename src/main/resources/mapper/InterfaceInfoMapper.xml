@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kevin.wang.springpatternkevinwang.mapper.InterfaceInfoMapper">
 
-    <resultMap id="BaseResultMap" type="com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo">
+    <resultMap id="BaseResultMap" type="com.dubbo.model.entity.InterfaceInfo">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
@@ -40,4 +40,11 @@
         from interface_info
         where invokeCount = (select max(invokeCount) from interface_info);
      </select>
+    <select id="listTopInvokeNmae" resultType="java.lang.String">
+        select name from interface_info
+        where id in
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

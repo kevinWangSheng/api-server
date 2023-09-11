@@ -1,0 +1,17 @@
+version: "3.12.4"
+services:
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - /opt/dev/software/rabbitmq/data/:/var/lib/rabbitmq/
+      - /opt/dev/software/rabbitmq/log/:/var/log/rabbitmq
+    network:
+      - rabbitnet
+
+networks:
+  rabbitnet:
+    driver: bridge

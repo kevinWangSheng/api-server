@@ -1,8 +1,9 @@
 package com.kevin.wang.springpatternkevinwang.mapper;
 
-import com.kevin.wang.springpatternkevinwang.model.entity.UserInterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dubbo.model.entity.UserInterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserInterfaceInfoVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
 
     List<UserInterfaceInfoVO> slectMaxInvokeInterface();
+
+    List<Long> getTopInterfaceInvoke(@Param("pageSize") Integer pageSize);
 }
 
 

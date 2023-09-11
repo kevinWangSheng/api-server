@@ -3,12 +3,13 @@ package com.kevin.wang.springpatternkevinwang.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dubbo.model.entity.User;
+import com.kevin.wang.springpatternkevinwang.auth.AuthModel;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
 import com.kevin.wang.springpatternkevinwang.constant.CommonConstant;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.mapper.UserMapper;
 import com.kevin.wang.springpatternkevinwang.model.dto.user.UserQueryRequest;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.enums.UserRoleEnums;
 import com.kevin.wang.springpatternkevinwang.model.vo.LoginUserVO;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserVO;
@@ -37,6 +38,9 @@ import static com.kevin.wang.springpatternkevinwang.constant.UserConstant.LOGIN_
 @Service
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    @Resource
+    private AuthModel authModel;
     @Resource
     private UserMapper userMapper;
     private static final String SALT = "kevin";
@@ -115,6 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         // 3. 记录用户的登录态
         request.getSession().setAttribute(LOGIN_USER, user);
+        authModel.userInfo(user,user.getUserPassword());
         return this.getLoginUserVO(user);
     }
 

@@ -3,7 +3,9 @@ package com.kevin.wang.springpatternkevinwang.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dubbo.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.annotation.AuthCheck;
+import com.kevin.wang.springpatternkevinwang.auth.AuthModel;
 import com.kevin.wang.springpatternkevinwang.common.BaseResponse;
 import com.kevin.wang.springpatternkevinwang.common.DeleteRequest;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
@@ -13,7 +15,6 @@ import com.kevin.wang.springpatternkevinwang.constant.UserConstant;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.exception.ThrowUtils;
 import com.kevin.wang.springpatternkevinwang.model.dto.user.*;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.model.vo.LoginUserVO;
 import com.kevin.wang.springpatternkevinwang.model.vo.UserVO;
 import com.kevin.wang.springpatternkevinwang.service.UserService;
@@ -40,6 +41,8 @@ import java.util.List;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
+
+
 
     @Resource
     private ParamUtils paramUtils;
@@ -84,8 +87,11 @@ public class UserController {
         }
 
         LoginUserVO loginUserVO = userService.userLogin(userAccount, password,request);
+
         return ResultUtils.success(loginUserVO);
     }
+
+
 
     @GetMapping("/login/wx_open")
     public BaseResponse<LoginUserVO> loginByMpOpen(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response) {

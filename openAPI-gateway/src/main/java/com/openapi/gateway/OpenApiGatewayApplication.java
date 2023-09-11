@@ -7,11 +7,14 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
-@SpringBootApplication
-@EnableDubbo(scanBasePackages = "com.openapi.gateway.component.service")
-@EnableDiscoveryClient
+import javax.sql.DataSource;
+
+@SpringBootApplication()
+@EnableDubbo
+@EnableScheduling
 public class OpenApiGatewayApplication {
 
     public static void main(String[] args) {

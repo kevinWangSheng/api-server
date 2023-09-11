@@ -50,6 +50,11 @@ spring:
       password: 123456
   freemarker:
     check-template-location: false
+  rabbitmq:
+    host: 43.143.248.43
+    username: guest
+    password: guest
+    port: 5672
 #  graphql:
 #    cors:
 #      allow-credentials: true
@@ -139,5 +144,6 @@ dubbo:
     # 配置注册中心为 Nacos，使用的地址是 nacos://localhost:8848
     id: nacos-registry
     address: nacos://localhost:8848
-
+  consumer:
+    request-timeout: 15s
 

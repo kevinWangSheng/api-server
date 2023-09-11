@@ -2,12 +2,12 @@ package com.kevin.wang.springpatternkevinwang.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dubbo.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.common.ErrorCode;
 import com.kevin.wang.springpatternkevinwang.exception.BussinessException;
 import com.kevin.wang.springpatternkevinwang.mapper.PostThumbMapper;
 import com.kevin.wang.springpatternkevinwang.model.entity.Post;
 import com.kevin.wang.springpatternkevinwang.model.entity.PostThumb;
-import com.kevin.wang.springpatternkevinwang.model.entity.User;
 import com.kevin.wang.springpatternkevinwang.service.PostService;
 import com.kevin.wang.springpatternkevinwang.service.PostThumbService;
 import jakarta.annotation.Resource;

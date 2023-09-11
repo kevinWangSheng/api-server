@@ -1,8 +1,9 @@
 package com.kevin.wang.springpatternkevinwang.mapper;
 
-import com.kevin.wang.springpatternkevinwang.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dubbo.model.entity.InterfaceInfo;
 import com.kevin.wang.springpatternkevinwang.model.vo.InterfaceInfoVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public interface InterfaceInfoMapper extends BaseMapper<InterfaceInfo> {
 
     List<InterfaceInfoVO> getMaxInvokeInterface();
+
+    List<String> listTopInvokeNmae(@Param("idList")List<Long> topInvitationIds);
 }
 
 
