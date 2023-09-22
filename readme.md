@@ -1,9 +1,7 @@
 # OpenApi共享平台
 
 基本流程图
-
-![image-20230911003215931](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230911003215931.png)
-
+![img.png](img.png)
 
 
 ## 知识点
@@ -86,8 +84,6 @@ if (response != null) {
 ### Knife4j
 
  介绍
-
- ![image-20230821164134183](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230821164134183.png)
 
 示例代码
 
@@ -271,7 +267,8 @@ RUN rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange
 RUN rabbitmq-plugins enable --offline rabbitmq_consistent_hash_exchange
 ```
 
-![image-20230909102644672](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230909102644672.png) 
+
+![img_1.png](img_1.png)
 
 rabbitmq在处理发送消息的时候，首先会进行一些基础的配置，什么properties，然后检查一些基本的配置，什么`BasicProperties convertedMessageProperties = this.messagePropertiesConverter
        .fromMessageProperties(message.getMessageProperties(), this.encoding);`
@@ -390,11 +387,10 @@ public class ShiroRealm extends AuthorizingRealm {
 可以通过这里查看他的内存以及一些类的分布情况
 
  ![image-20230909151322801](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230909151322801.png)
-
+![img_2.png](img_2.png)
 可以查看他的spring总bean的注册情况
 
-![image-20230909151404335](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230909151404335.png) 
-
+![img_3.png](img_3.png)
 
 
 ## 接口调用
