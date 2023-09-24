@@ -386,7 +386,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
 可以通过这里查看他的内存以及一些类的分布情况
 
- ![image-20230909151322801](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230909151322801.png)
+ ![image-20230909151322801](/img.png![img.png](img.png))
 ![img_2.png](img_2.png)
 可以查看他的spring总bean的注册情况
 
