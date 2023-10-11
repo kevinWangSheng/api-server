@@ -6,7 +6,6 @@ import com.kevin.wang.springpatternkevinwang.common.ResultUtils;
 import com.kevin.wang.springpatternkevinwang.service.InterfaceInfoService;
 import com.kevin.wang.springpatternkevinwang.service.UserInterfaceInfoService;
 import jakarta.annotation.Resource;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
