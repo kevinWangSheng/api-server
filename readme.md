@@ -169,7 +169,7 @@ public class AuthModel {
 
 这个subject的对象参数
 
- ![img.png](img.png)
+![img.png](img.png)
 这个是他创建的subject方法
 
 ```java
