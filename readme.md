@@ -1,7 +1,7 @@
 # OpenApi共享平台
 
 基本流程图
-![img.png](img.png)
+![img.png](imgs/img.png)
 
 
 ## 知识点
@@ -268,7 +268,7 @@ RUN rabbitmq-plugins enable --offline rabbitmq_consistent_hash_exchange
 ```
 
 
-![img_1.png](img_1.png)
+![img_1.png](imgs/img_1.png)
 
 rabbitmq在处理发送消息的时候，首先会进行一些基础的配置，什么properties，然后检查一些基本的配置，什么`BasicProperties convertedMessageProperties = this.messagePropertiesConverter
        .fromMessageProperties(message.getMessageProperties(), this.encoding);`
@@ -387,10 +387,10 @@ public class ShiroRealm extends AuthorizingRealm {
 可以通过这里查看他的内存以及一些类的分布情况
 
  ![image-20230909151322801](/img.png![img.png](img.png))
-![img_2.png](img_2.png)
+![img_2.png](imgs/img_2.png)
 可以查看他的spring总bean的注册情况
 
-![img_3.png](img_3.png)
+![img_3.png](imgs/img_3.png)
 
 
 ## 接口调用
