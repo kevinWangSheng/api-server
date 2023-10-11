@@ -169,8 +169,7 @@ public class AuthModel {
 
 这个subject的对象参数
 
- ![image-20230907222707477](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230907222707477.png)
-
+![img.png](img.png) ![img.png](img.png)
 这个是他创建的subject方法
 
 ```java
