@@ -169,8 +169,7 @@ public class AuthModel {
 
 这个subject的对象参数
 
- ![image-20230907222707477](C:\Users\wang sheng hui\AppData\Roaming\Typora\typora-user-images\image-20230907222707477.png)
-
+ ![img.png](img.png)
 这个是他创建的subject方法
 
 ```java
@@ -386,8 +385,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
 可以通过这里查看他的内存以及一些类的分布情况
 
- ![image-20230909151322801](/img.png![img.png](img.png))
-![img_2.png](imgs/img_2.png)
+ ![img_2.png](imgs/img_2.png)
 可以查看他的spring总bean的注册情况
 
 ![img_3.png](imgs/img_3.png)
